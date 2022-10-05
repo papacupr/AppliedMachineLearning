@@ -1,0 +1,70 @@
+Preprocessing default: Chose to start at 1849 to keep train/test the same dimension. 
+
+1. Classification_CooperNicolaysen_SKLearn.txt
+Algorithm: LinearRegression()
+Preprocessing: Reduce static variables using VarianceThreshold where variance = 0, 
+used forward_selection to find best variables with a p_value < .05, printed list of 80 variables
+Key HP: None
+Error: Log_los
+Own Evaluation: Pretty good, variable choice was optimized for problem
+
+2. Classification_CooperNicolaysen_XGBoost.txt
+Algorithm: XGBRegressor
+Preprocessing: Used top 20 variables from forward_selection, fit out static variables using VarianceThreshold = 0, 
+Key HPs: None
+Own Evaluation: Best algorithm, barely any processing power, variable selection seemed right
+
+3. Classification_CooperNicolaysen_DecisionTreeClassifier
+Algorithm: Decision Tree Classifier, using probability of being within a certain class
+Preprocessing: Shrink training data for ram issues, used top variable list according to p-value relation to truth of an electron. 
+Key HP: min_samples_leaf and min_depth, letting the algorithm get fairly large
+OWn Evaluation: Very nice, scraped through a gridsearch to squeeze out a few more percent in accuracy. Seems to line up with other well-performing models. 
+
+
+4. Regression_CooperNicolaysen_DecisionTree.txt
+Algorithm: DecisionTreeRegressor
+HP_Optimization: Used sklearn.model_selection GridSearchCV, scraped across
+{"splitter":["best","random"],
+            "max_depth" : [1,3,5,7,9,11,12],
+           "min_samples_leaf":[1,2,3,4,5,6,7,8,9,10],
+           "min_weight_fraction_leaf":[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],
+           "max_features":["auto","log2","sqrt",None],
+           "max_leaf_nodes":[None,10,20,30,40,50,60,70,80,90] }
+KeyParameters: {'max_features': 'auto', 'max_depth: 3'
+ 'max_leaf_nodes': None,
+ 'min_samples_leaf': 1,
+ 'min_weight_fraction_leaf': 0.2,
+ 'splitter': 'best'} to be best parameters after searching for 7 HOURS. 
+Preprocessing: RAM Issue, reduce dataset to rows [1849:40000]
+Own Evaluation: Not very good, not enough ram to run a full test and I don't think my scraper turned out correct for hyper parameter optimizations, tree doesn't have many stems
+
+
+5. Regression_CooperNicolaysen_NN.txt
+Algorithm: Keras NNs, Sequential
+Key HP: epochs, batch_size, model
+HP_optimization: Activation function, sigmoid was best for regression task
+Decision on Parameters: 10 epochs vs 100 epochs had no accuracy difference, so training time
+reduced as much as possible. 
+Layers: 3 Dense Layers reducing input_dimension to a single output
+Preprocessing: Standardize dataset to reduce high energy values, used Pipeline to get across estimators array,
+Own Evaluation: Fine, seems to recognize the difference between electrons and not electrons (based off energy differences)
+
+6. Regression_CooperNicolaysen_Ridge
+Algorithm: Sklearn Ridge
+HP_Optimization: GridSearchCV of alpha values = {0.01, 0.02, ..., 1}
+HP choice: alpha = .99
+Own Evaluation: Doesn't seem to match other predictions very well, so it might be a bad algorithm for this analysis. 
+
+7. Clustering_CooperNicolaysen_SKLearn.txt
+Algorithm: Sklearn KMeans Clustering
+Preprocessing: Chose to start training set from 1849, as train/test had different sizes, normalized data to get a less wide band of a large group.
+Key HP: n_clusters, random_state
+HP optimization: Tested various n_clusters, the difference between 3, 4, 5, 6 was just a thinner band of a large group separated by other instances. 
+Decision on Parameters: Previous scraper found top 80 choices for electron classification
+chose top 8 as evaluation is based off electron/notelectron
+Own Evaluation: Pretty standard, seems split off a continuous value in the middle of groups, not sure if accurate (no way to tell). 
+After evaluating the test data prenormalization and post-normalization, it seems the largest group must be electrons and the other groups split into various particles. 
+
+
+
+
