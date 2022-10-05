@@ -4,3 +4,5 @@
 - Three tasks at hand: Identify (classification) electrons vs non-electrons, estimate (regression) the energy of the electrons, and cluster the particle signatures into 3+ categories using unsupervised learning. 
 - There exists at least one tree baseed solution and one neural net based solution. 
 - Certification from the project is included 
+
+https://www.nbi.dk/~petersen/Teaching/ML2022/InitialProject.html Obtain data from website here 
